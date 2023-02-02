@@ -20,6 +20,12 @@
 		<jackson-databind.version>2.13.3</jackson-databind.version>
 		<cdevent-java-sdk-jar>${project.basedir}/cdevents-sdk-java-0.0.1.jar</cdevent-java-sdk-jar>
 	</properties>
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
