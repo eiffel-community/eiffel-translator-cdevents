@@ -1,7 +1,7 @@
 package com.ericsson.event.translator;
 
 
-import com.ericsson.event.translator.cdevent.CDEventsTranslator;
+import com.ericsson.event.translator.cdevents.CDEventsTranslator;
 import com.ericsson.event.translator.eiffel.EiffelEventsTranslator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

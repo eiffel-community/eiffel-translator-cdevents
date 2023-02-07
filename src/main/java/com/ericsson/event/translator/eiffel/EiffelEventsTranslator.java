@@ -61,6 +61,7 @@ public class EiffelEventsTranslator {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(eiffelEventJson, headers);
+
         ResponseEntity<String> response = resetTemplate.postForEntity(remRemPublishPostUrl, entity, String.class);
 
         return response.getStatusCode();

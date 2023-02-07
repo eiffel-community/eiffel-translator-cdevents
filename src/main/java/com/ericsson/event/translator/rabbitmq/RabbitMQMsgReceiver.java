@@ -1,6 +1,6 @@
 package com.ericsson.event.translator.rabbitmq;
 
-import com.ericsson.event.translator.cdevent.CDEventsTranslator;
+import com.ericsson.event.translator.cdevents.CDEventsTranslator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
