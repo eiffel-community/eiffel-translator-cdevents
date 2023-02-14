@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,11 +29,21 @@ class EiffelEventsTranslatorTest {
     @Autowired
     private EiffelEventsTranslator eiffelEventsTranslator;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @MockBean
     private RestTemplate resetTemplate;
 
     @MockBean
     private ResponseEntity responseEntity;
+
+    @BeforeEach
+    private void mockResponse() {
+        ResponseEntity<String> response = new ResponseEntity("eiffelEventJson", HttpStatus.OK);
+        when(resetTemplate.postForEntity(anyString(), any(), eq(String.class))).thenReturn(response);
+        when(responseEntity.getStatusCode()).thenReturn(HttpStatus.OK);
+    }
 
     @Test
     void testTranslateCDArtPublishedEventToEiffelEvent() throws JsonProcessingException {
@@ -44,13 +55,9 @@ class EiffelEventsTranslatorTest {
         cdEventsData.setArtifactName("testArtifactName");
         cdEventsData.setSubject("testSubject");
 
-        ObjectMapper objectMapper = new ObjectMapper();
         CloudEvent cdevent = CDEventTypes.createArtifactEvent(CDEventEnums.ArtifactPublishedEventV1.getEventType(),
                 "artifactID", "artifactName", "3.0.0", objectMapper.writeValueAsString(cdEventsData));
 
-        ResponseEntity<String> response = new ResponseEntity("eiffelEventJson", HttpStatus.OK);
-        when(resetTemplate.postForEntity(anyString(), any(), eq(String.class))).thenReturn(response);
-        when(responseEntity.getStatusCode()).thenReturn(HttpStatus.OK);
         boolean result = eiffelEventsTranslator.translateToEiffelEvent(cdevent);
         assertTrue(result);
     }
@@ -65,13 +72,9 @@ class EiffelEventsTranslatorTest {
         cdEventsData.setArtifactName("testArtifactName");
         cdEventsData.setSubject("testSubject");
 
-        ObjectMapper objectMapper = new ObjectMapper();
         CloudEvent cdevent = CDEventTypes.createArtifactEvent(CDEventEnums.ArtifactCreatedEventV1.getEventType(),
                 "artifactID", "artifactName", "3.0.0", objectMapper.writeValueAsString(cdEventsData));
 
-        ResponseEntity<String> response = new ResponseEntity("eiffelEventJson", HttpStatus.OK);
-        when(resetTemplate.postForEntity(anyString(), any(), eq(String.class))).thenReturn(response);
-        when(responseEntity.getStatusCode()).thenReturn(HttpStatus.OK);
         boolean result = eiffelEventsTranslator.translateToEiffelEvent(cdevent);
         assertTrue(result);
     }
@@ -84,14 +87,10 @@ class EiffelEventsTranslatorTest {
         cdEventsData.setEventName("PipelineRunFinishedEventV1");
         cdEventsData.setSubject("testSubject");
 
-        ObjectMapper objectMapper = new ObjectMapper();
         CloudEvent cdevent = CDEventTypes.createPipelineRunEvent(CDEventEnums.PipelineRunFinishedEventV1.getEventType(),
                 "pipelineID", "pipelineName", "Success", "pipelineRunURL", "pipelineRunErrors",
                 objectMapper.writeValueAsString(cdEventsData));
 
-        ResponseEntity<String> response = new ResponseEntity("eiffelEventJson", HttpStatus.OK);
-        when(resetTemplate.postForEntity(anyString(), any(), eq(String.class))).thenReturn(response);
-        when(responseEntity.getStatusCode()).thenReturn(HttpStatus.OK);
         boolean result = eiffelEventsTranslator.translateToEiffelEvent(cdevent);
         assertTrue(result);
     }
