@@ -11,10 +11,17 @@ import java.io.UncheckedIOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
 @Component
 public class CDEventsSender {
 
+    /**
+     * Sends CDEvent to the Configured ClouEvent broker URL.
+     *
+     * @param ceToSend
+     * @param url
+     * @return HttpURLConnection
+     * @throws IOException
+     */
     public HttpURLConnection sendCDEvent(CloudEvent ceToSend, URL url) throws IOException {
         HttpURLConnection httpUrlConnection = createConnection(url);
         MessageWriter messageWriter = createMessageWriter(httpUrlConnection);
@@ -32,21 +39,19 @@ public class CDEventsSender {
     }
 
     private MessageWriter createMessageWriter(HttpURLConnection httpUrlConnection) {
-        return HttpMessageFactory.createWriter(
-                httpUrlConnection::setRequestProperty,
-                body -> {
-                    try {
-                        if (body != null) {
-                            httpUrlConnection.setRequestProperty("content-length", String.valueOf(body.length));
-                            try (OutputStream outputStream = httpUrlConnection.getOutputStream()) {
-                                outputStream.write(body);
-                            }
-                        } else {
-                            httpUrlConnection.setRequestProperty("content-length", "0");
-                        }
-                    } catch (IOException t) {
-                        throw new UncheckedIOException(t);
+        return HttpMessageFactory.createWriter(httpUrlConnection::setRequestProperty, body -> {
+            try {
+                if (body != null) {
+                    httpUrlConnection.setRequestProperty("content-length", String.valueOf(body.length));
+                    try (OutputStream outputStream = httpUrlConnection.getOutputStream()) {
+                        outputStream.write(body);
                     }
-                });
+                } else {
+                    httpUrlConnection.setRequestProperty("content-length", "0");
+                }
+            } catch (IOException t) {
+                throw new UncheckedIOException(t);
+            }
+        });
     }
 }

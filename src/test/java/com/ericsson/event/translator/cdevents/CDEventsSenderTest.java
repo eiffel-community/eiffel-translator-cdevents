@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -23,20 +24,20 @@ import static org.mockito.Mockito.doReturn;
 class CDEventsSenderTest {
 
     @Spy
-    CDEventsSender cdEventsSender;
+    private CDEventsSender cdEventsSender;
 
     @Mock
-    HttpURLConnection connection;
+    private HttpURLConnection connection;
 
     @Mock
-    URL url;
+    private URL url;
 
     @Mock
-    OutputStream outputStream;
+    private OutputStream outputStream;
 
     @Test
     void testSendCDEventSuccess() throws IOException {
-        int expected = 202;
+        int expected = HttpStatus.ACCEPTED.value();
 
         CDEventsData cdEventsData = new CDEventsData();
         cdEventsData.setEventId("123");
@@ -46,13 +47,14 @@ class CDEventsSenderTest {
         cdEventsData.setSubject("testSubject");
 
         ObjectMapper objectMapper = new ObjectMapper();
-        CloudEvent cloudEvent = CDEventTypes.createTestEvent(CDEventEnums.TestSuiteFinishedEventV1.getEventType(), "testSuiteId", "poc", "3.0.0", objectMapper.writeValueAsString(cdEventsData));
+        CloudEvent cloudEvent = CDEventTypes.createTestEvent(CDEventEnums.TestSuiteFinishedEventV1.getEventType(),
+                "testSuiteId", "poc", "3.0.0", objectMapper.writeValueAsString(cdEventsData));
 
         doReturn(connection).when(url).openConnection();
         doReturn(expected).when(connection).getResponseCode();
         doReturn(outputStream).when(connection).getOutputStream();
         HttpURLConnection httpURLConnection = cdEventsSender.sendCDEvent(cloudEvent, url);
 
-       assertEquals(expected, httpURLConnection.getResponseCode());
+        assertEquals(expected, httpURLConnection.getResponseCode());
     }
 }

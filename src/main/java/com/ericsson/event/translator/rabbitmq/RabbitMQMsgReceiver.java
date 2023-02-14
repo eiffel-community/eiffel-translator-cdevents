@@ -23,11 +23,15 @@ public class RabbitMQMsgReceiver {
     private ObjectMapper objectMapper;
 
     @Value("${cloudevent.broker.url}")
-    private String CLOUDEVENT_BROKER_URL;
+    private String cloudEventBrokerURL;
 
+    /**
+     * Receives a message from configured RabbitMQ host.
+     *
+     * @param message
+     */
     public void receiveMessage(byte[] message) {
-        String eventJson =
-                new String(message, StandardCharsets.UTF_8);
+        String eventJson = new String(message, StandardCharsets.UTF_8);
         boolean isPublished = false;
         log.info("RabbitMQMsgReceiver Received message from RabbitMQ <" + eventJson + ">");
         try {
@@ -37,18 +41,20 @@ public class RabbitMQMsgReceiver {
             log.info("Eiffel event {} received", eiffelEventType);
 
             ArrayNode tagsArrayNode = (ArrayNode) metaObj.get("tags");
-            for (Iterator<JsonNode> iterator = tagsArrayNode.elements(); iterator.hasNext(); ) {
+            for (Iterator<JsonNode> iterator = tagsArrayNode.elements(); iterator.hasNext();) {
                 String tag = iterator.next().asText();
                 log.info("Eiffel event meta tag {}", tag);
-                if(tag.equalsIgnoreCase("published")){
+                if (tag.equalsIgnoreCase("published")) {
                     isPublished = true;
                     break;
                 }
             }
-            if(!isPublished){
-                log.info("The Eiffel event {} will be translated to CDEvent and published to configured events-broker {}", eiffelEventType, CLOUDEVENT_BROKER_URL);
+            if (!isPublished) {
+                log.info(
+                        "The Eiffel event {} will be translated to CDEvent and published to configured events-broker {}",
+                        eiffelEventType, cloudEventBrokerURL);
                 cdEventTranslator.translateToCDEvent(eventJson, eiffelEventType);
-            } else{
+            } else {
                 log.info("Ignoring, the Eiffel event {} is published by event-translator itself..", eiffelEventType);
             }
 

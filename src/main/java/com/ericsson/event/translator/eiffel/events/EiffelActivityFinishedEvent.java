@@ -4,33 +4,40 @@ import com.ericsson.event.translator.eiffel.models.EiffelActivityFinishedEventPa
 import com.ericsson.event.translator.eiffel.models.EiffelActivityFinishedMsgParams;
 
 public class EiffelActivityFinishedEvent {
-    public EiffelActivityFinishedEvent() {
-    }
 
     private EiffelActivityFinishedMsgParams msgParams = new EiffelActivityFinishedMsgParams();
     private EiffelActivityFinishedEventParams eventParams = new EiffelActivityFinishedEventParams();
 
+    /**
+     * @return msgParams
+     */
     public EiffelActivityFinishedMsgParams getMsgParams() {
         return msgParams;
     }
 
+    /**
+     * @param msgParams
+     */
     public void setMsgParams(EiffelActivityFinishedMsgParams msgParams) {
         this.msgParams = msgParams;
     }
 
+    /**
+     * @return eventParams
+     */
     public EiffelActivityFinishedEventParams getEventParams() {
         return eventParams;
     }
 
+    /**
+     * @param eventParams
+     */
     public void setEventParams(EiffelActivityFinishedEventParams eventParams) {
         this.eventParams = eventParams;
     }
 
     @Override
     public String toString() {
-        return "EiffelActivityFinishedEvent{" +
-                "msgParams=" + msgParams +
-                ", eventParams=" + eventParams +
-                '}';
+        return "EiffelActivityFinishedEvent{" + "msgParams=" + msgParams + ", eventParams=" + eventParams + '}';
     }
 }

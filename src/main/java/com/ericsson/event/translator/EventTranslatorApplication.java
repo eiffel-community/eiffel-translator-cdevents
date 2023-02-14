@@ -8,13 +8,21 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class EventTranslatorApplication {
 
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
+    /**
+     * Instantiate new RestTemplate Object.
+     * @return restTemplate
+     */
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(EventTranslatorApplication.class, args);
-	}
+    /**
+     * Starts the Springboot application.
+     * @param args
+     */
+    public static void main(String[] args) {
+        SpringApplication.run(EventTranslatorApplication.class, args);
+    }
 
 }

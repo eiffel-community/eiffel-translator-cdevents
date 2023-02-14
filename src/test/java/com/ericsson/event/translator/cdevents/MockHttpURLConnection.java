@@ -10,20 +10,25 @@ public class MockHttpURLConnection extends HttpURLConnection {
     private int responseCode;
     private URL url;
     private InputStream inputStream;
-
     private OutputStream outputStream;
 
-
-    public MockHttpURLConnection(URL url){
+    
+    /**
+     * @param url
+     */
+    public MockHttpURLConnection(URL url) {
         super(null);
-        this.url=url;
+        this.url = url;
     }
+
     @Override
     public int getResponseCode() {
         return responseCode;
     }
 
-
+    /**
+     * @param responseCode
+     */
     public void setResponseCode(int responseCode) {
         this.responseCode = responseCode;
     }
@@ -33,6 +38,9 @@ public class MockHttpURLConnection extends HttpURLConnection {
         return url;
     }
 
+    /**
+     * @param url
+     */
     public void setUrl(URL url) {
         this.url = url;
     }
@@ -42,6 +50,9 @@ public class MockHttpURLConnection extends HttpURLConnection {
         return inputStream;
     }
 
+    /**
+     * @param inputStream
+     */
     public void setInputStream(InputStream inputStream) {
         this.inputStream = inputStream;
     }
@@ -51,6 +62,9 @@ public class MockHttpURLConnection extends HttpURLConnection {
         return outputStream;
     }
 
+    /**
+     * @param outputStream
+     */
     public void setOutputStream(OutputStream outputStream) {
         this.outputStream = outputStream;
     }

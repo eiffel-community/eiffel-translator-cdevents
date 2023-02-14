@@ -9,6 +9,12 @@ import javax.annotation.PostConstruct;
 
 @Component
 public class CustomObjectMapper extends ObjectMapper {
+
+    /**
+     * Custom configuration to enable Serialization and Deserialization for Enum
+     * values.
+     *
+     */
     @PostConstruct
     public void customConfiguration() {
         this.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);

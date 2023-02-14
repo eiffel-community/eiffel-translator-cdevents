@@ -7,6 +7,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
+/**
+ * CloudEventHandlerConfiguration helps to handle CloudEvent inputs or outputs
+ * through @RestController, and the conversion will be handled by Spring
+ * "/translate/eiffel" endpoint is an example of CloudEvent input in this
+ * project, Spring will handle the conversion.
+ */
 @Configuration
 public class CloudEventHandlerConfiguration implements WebMvcConfigurer {
 
