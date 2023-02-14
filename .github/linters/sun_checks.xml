@@ -107,9 +107,9 @@
     <module name="JavadocVariable">
       <property name="scope" value="public"/>
     </module>
-    <module name="JavadocStyle">
+    <!--<module name="JavadocStyle">
       <property name="excludeScope" value="package"/>
-    </module>
+    </module>-->
     <module name="MissingJavadocMethod"/>
     <!-- Enables @SuppressWarnings Support                -->
     <module name="SuppressWarningsHolder"/>

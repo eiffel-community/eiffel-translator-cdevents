@@ -95,5 +95,4 @@ class EiffelEventsTranslatorTest {
         boolean result = eiffelEventsTranslator.translateToEiffelEvent(cdevent);
         assertTrue(result);
     }
-
 }

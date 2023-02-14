@@ -12,7 +12,6 @@ public class MockHttpURLConnection extends HttpURLConnection {
     private InputStream inputStream;
     private OutputStream outputStream;
 
-    
     /**
      * @param url
      */
